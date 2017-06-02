@@ -1,24 +1,24 @@
-* [1.ABC of Programming](#abc-of-programming)
-* [2.Basic Javascript](#basic-javascript)
-* [3.Functions, methods, and Objects](#functions-methods-and-objects)
-* [4.Decisions and Loops](#decisions-and-loops)
-* [5.Document Object Model](#document-object-model)
-* [6.Events](#events)
-* [7.jQuery](#jquery)
-* [8.Ajax and JSON](#ajax-and-json)
-* [9.APIs](#apis)
-* [10.Error Handling and Debugging](#error-handling-and-debugging)
-* [11.Content Panels](#content-panels)
-* [12.Filtering, Searching and Sorting](#filtering-searching-and-sorting)
-* [13.Form Enhancement and Validation](#form-enhancement-and-validation)
+* [1. ABC of Programming](#abc-of-programming)
+* [2. Basic Javascript](#basic-javascript)
+* [3. Functions, methods, and Objects](#functions-methods-and-objects)
+* [4. Decisions and Loops](#decisions-and-loops)
+* [5. Document Object Model](#document-object-model)
+* [6. Events](#events)
+* [7. jQuery](#jquery)
+* [8. Ajax and JSON](#ajax-and-json)
+* [9. APIs](#apis)
+* [10. Error Handling and Debugging](#error-handling-and-debugging)
+* [11. Content Panels](#content-panels)
+* [12. Filtering, Searching and Sorting](#filtering-searching-and-sorting)
+* [13. Form Enhancement and Validation](#form-enhancement-and-validation)
 
 # ABC of Programming
 
-## a.What is a script and how to create one? 
+## a. What is a script and how to create one? 
 A script is a series of instructions like a recipe or manuals. 
 To design a script, create tasks, break them down into steps and implement into JavaScript code.
 
-## b.How do computers fit in with the world around them?
+## b. How do computers fit in with the world around them?
 Computers create models of the world using data.
 
 ### Objects and Properties
@@ -46,7 +46,7 @@ and applies styling to it.
 2. Create a model of the page and store it in memory
 3. Use a rendering engine to show the page on screen
 
-## c.How do I write a script for a web page?
+## c. How do I write a script for a web page?
 html(content layer), css(presentation layer), javascript(behavior layer)
 
 ```html
@@ -76,9 +76,11 @@ document.write('<h3>' + greeting + '</h3>');
 /*object.method();*/
 ```
 
-directly put script in html
+you can directly put script in html
 ```html
-<script type="text/javascript">document.write('<h3>Welcome!</h3>');</script>
+<body>
+    <script type="text/javascript">document.write('<h3>Welcome!</h3>');</script>    
+</body>
 ```
 
 # Basic Javascript
