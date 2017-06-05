@@ -76,7 +76,7 @@ document.write('<h3>' + greeting + '</h3>');
 /*object.method();*/
 ```
 
-you can directly put script in html
+you can directly put script in 'add-content.html'
 ```html
 <body>
     <script type="text/javascript">document.write('<h3>Welcome!</h3>');</script>    
@@ -84,17 +84,204 @@ you can directly put script in html
 ```
 
 # Basic Javascript
-variable, data types (number, string, boolean), array
+variable data types(number, string, boolean), array(object)
 ```javascript
 var a= "a";
 var b = 'b';
 var n = 1;
 var isTrue = true; //or false
-var arr= ['string', 1, false, true];
+var arr= ['string', 1, false, true]; //new Array('a', 'b', 'c', 'd');
 arr.length // 4
 arr[0] = 'String';
 ```
 
 ## Operator
 arithmetic operator + - / * ++ -- % boolean < > logical && || 
+
+# Functions, methods, and Objects
+```javascript
+var msg = 'Sign up to receive our newsletter for 10% off!'
+/*function declaration*/
+function updateMessage(myMsg){
+    var el = document.getElementById('message');
+    el.textContent = myMsg;
+}
+updateMessage(msg); /*call*/
+
+/*anonymous function (expression)*/
+var area = function(width, height){
+    return width * height;
+}
+var size = area(3, 4);
+
+/*immediately invoked function expressions(IIFE)*/
+var area = ( // area will hold returned value, rather than storing the function itself
+    function(){
+        var width =3;
+        var height = 2;
+        return width * height;
+    } () //call function immediately
+);//interprets as an expression
+```
+
+## Object
+variables in an object are called properties. functions in an object are called method.
+```javascript
+/*1. literal notation*/
+
+/*object-literal1.js*/
+var hotel = {
+    name: 'Quay',
+    rooms: 40,
+    booked: 25,
+    gym: true,
+    roomTypes: ['twin', 'double', 'suite'],
+    checkAvailability: function(){
+        return this.rooms - this.booked;
+    }
+};
+var elName = document.getElementByld('hotelName');
+elName.textContent = hotel.name; //Quay
+var elRooms = document.getElementByid('rooms'); //40
+elRooms.textContent = hotel.checkAvailability();
+
+/*object-literal2.js*/
+var hotel = {
+    name: 'Park',
+    rooms: 120,
+    booked: 77,
+    gym: true,
+    roomTypes: ['twin', 'double', 'suite'],
+    checkAvailability: function(){
+        return this.rooms - this.booked;
+    }
+};
+var elName = document.getElementByld('hotelName');
+elName.textContent = hotel.name; //Park
+var elRooms = document.getElementByid('rooms'); //120
+elRooms.textContent = hotel.checkAvailability();
+
+/*access by dot notation*/
+var hotelName = hotel.name;
+var roomsFree = hotel.checkAvailability();
+
+/*access by bracket notation*/
+var hotelName = hotel['name'];
+
+
+/*2-1. constructor notation(creating an object)*/
+var hotel = new Object();
+hotel.name ='Quay';
+hotel.rooms = 40;
+hotel.booked = 25;
+hotel.checkAvailability = function(){
+    return this.rooms - this.booked;
+}
+
+/*updating an object*/
+hotel.name = 'Park';
+hotel['name'] = 'Park';
+
+/*2-2. constructor notation(creating multiple objects)*/
+function Hotel(name, rooms, booked){
+    this.name = name;
+    this.rooms = rooms;
+    this.booked = booked;
+    this.checkAvailability = function(){
+        return this.rooms - this.booked;
+    }
+}
+var quayHotel = new Hotel('Quay', 40, 25);
+var parkHotel = new Hotel('Park', 120, 77);
+
+/*creating objects using constructor syntax*/
+var hotel = new Object();
+hotel.name= 'Park';
+hotel.rooms = 120;
+hotel.booked = 77;
+hotel.checkAvailability = function(){
+    return this.rooms - this.booked;
+};
+var elName = document.getElementByid('hotelName');
+elName.textContent = hotel.name;
+var elRooms = document.getElementByid('rooms');
+elRooms.textContent = hotel.checkAvailability();
+
+/*creating objects using constructor notation*/
+function Hotel (name, rooms, booked) {
+    this.name = name;
+    this.rooms = rooms;
+    this.booked = booked;
+    this.checkAvailability = function(){
+        return this.rooms - this.booked;
+    }
+};
+var quayHotel = new Hotel('Quay', 40, 25);
+var parkHotel = new Hotel( 'Park', 120, 77);
+var details1= quayHotel.name + ' rooms : ';
+    details1 += quayHotel.checkAvailability();
+var elHotel1 = docurnent.getElementByid('hotell');
+    elHotel1.textContent =details!;
+
+var details2 = parkHotel .name+ ' rooms: ';
+    details2 += parkHotel.checkAvailability();
+var elHotel2 = document.getElementByid('hotel2');
+    elHotel2.textContent = details2;
+
+/*adding & removing properties*/
+var hotel = {
+    name: 'Park',
+    rooms:120,
+    booked : 77;
+}
+hotel.gym =true;
+hotel.pool = false;
+delete hotel.booked;
+
+var elName = document.getElementById('hotelName');
+elName.textContent = hotel.name;
+
+var elPool = document.getElementById('pool');
+elPool.className = 'Pool: ' + hotel.pool; 
+
+var elGym = document.getElementById('gym');
+elGym.className = 'Gym: ' + hotel.gym;
+```
+
+## this keyword
+```javascript
+/*window is the default object*/
+function windowSize(){
+    return [this.innerWidth, this.innerHeight];
+}
+/*global variables also become properties of the window object*/
+var width =600;
+var shape = {width: 300};
+
+var showWidth = function(){
+    // global variable, width, is a property of the window object
+    doucument.write(this.width); // document.write(window.width); 600
+}
+showWidth();
+
+/*method of an object*/
+var shape = {
+    width: 600,
+    height: 400,
+    getArea: function(){
+        return this.width * this.height; //600*400
+    }
+};
+
+/*function expression as method*/
+var width =600;
+var shape ={width: 300};
+var showWidth = function(){
+    document.write(this.width);
+}
+shape.getWidth = showWidth;
+shape.getWidth(); //300
+```
+
+## Built-in objects
 
