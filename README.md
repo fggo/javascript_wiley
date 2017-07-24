@@ -10,33 +10,53 @@
 * [10. Error Handling and Debugging](#error-handling-and-debugging)
 * [11. Content Panels](#content-panels)
 * [12. Filtering, Searching and Sorting](#filtering-searching-and-sorting)
-* [13. Form Enhancement and Validation](#form-enhancement-and-validation)
+* [13. Form Enhancement ad Validation](#form-enhancement-and-validation)
 
 # ABC of Programming
 
-## a. What is a script and how to create one? 
-A series of instructions like a recipe or manuals.
-
-To design a script 1. Create tasks 2. Break into steps 3. Implement JavaScript code
+## a. What is a Script and how to create one? 
+A series of instructions like a recipe or manuals. To design a script :
+1. Create tasks
+2. Break into steps
+3. Implement JavaScript code
 
 ## b. How do computers fit in with the world around them?
-Computers create models of the world using data.
+Computers create models of the world using data - object, property, event, method
 
 ### Objects and Properties
-Each object has its own properties (name-value pairs; characteristics) events (programmers choose 
-which event they respond to) and methods (represent things people need to do with objects)
+Object has:
+- properties (name-value pairs; characteristics)
+- events (programmers choose which event they respond to)
+- methods (represent things people need to do with objects)
+
+```
+HOTEL Object :
+1. When a reservation is made, the book event fires.
+2. The book event triggers makeBooking(), which increases the value of the bookings property
+3. The value of the bookings property is changed to reflect the number of rooms available.
+
+WINDOW Object:
+location property
+
+DOCUMENT Object:
+URL property, lastModified property, title property
+```
 
 ### Web browsers are programs built using objects
-window & document are objects
+window & document objects
 
-### document Object
-properties (URL, lastModified, title), methods (perform tasks associated with the document loaded in the browser.
-e.g. getting information from a specified element or adding new content) and events (e.g. user clicking or tapping an element)
+### document Object represents an HTML page
+- properties : URL, lastModified, title
+- methods : perform tasks associated with the document loaded in the browser. (e.g. write(), getElementById())
+- events : (e.g. load, click, keypress)
 
 ### How a browser sees a web page
-JS can be used to change HTML page contents. You need to know how a browser interprets HTML code 
-and applies styling to it. 1. Receive a page as HTML code  2. Create a model of the page and store it 
-in memory  3. Use a rendering engine to show the page on screen
+JS can be used to change HTML page contents. You need to know how a browser interprets HTML code and applies styling to it. 
+1. Receive a page as HTML code
+2. Create a model of the page and store it in memory
+3. Use a rendering engine to show the page on screen
+
+All major browsers use a JavaScript interpreter to translate your instructions (in JavaScript) into instructions the computer can follow.
 
 ## c. How do I write a script for a web page?
 html(content layer), css(presentation layer), javascript(behavior layer)
@@ -50,11 +70,13 @@ html(content layer), css(presentation layer), javascript(behavior layer)
 </html>
 ```
 
+### Creating a basic JavaScript
 ```javascript
 /*add-content.js*/
 var today = new Date();
 var hourNow = today.getHours();
 var greeting;
+
 if (hourNow > 18) {
 	greeting = 'Good evening!';
 } else if (hourNow > 12) {
@@ -68,15 +90,105 @@ document.write('<h3>' + greeting + '</h3>');
 /*object.method();*/
 ```
 
+Linking to a JavaScript file from an HTML page
 ```html
-<!-- you can directly put script in add-content.html -->
 <body>
-	<script type="text/javascript">document.write('<h3>Welcome!</h3>');</script>    
+	<script type="text/javascript">document.write('<h3>Welcome!</h3>');</script>
+	<script src="jss/add-content.js"></script>    
 </body>
 ```
 
 # Basic Javascript
-variable data types(number, string, boolean), array(object)
+Variables to store number or string
+```html
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="c02/css/c02.css">
+</head>
+<body>
+    <h1>Elderflower</h1>
+    <div id="contnet">
+        <h2>Custom Signage</h2>
+        <div id="cost">Cost: $5 per tile</div>
+        <img src="c02/images/preview.jpg" alt="Sign">
+    </div>
+    <script>
+        var cost = 5;
+        var quantity = 14;
+        var total = cost * quantity;
+        var el = document.getElementById('cost');
+        el.textContent = '$' + total;
+    </script>
+</body>
+```
+
+Using quotes inside a string
+```html
+<body>
+<h1>Elderflower</h1>
+<div id="content">
+    <div id="title">Special Offers</div>
+    <div id="note">Sign-up to receive personalized offers!</div>
+</div>
+<!--<script src="c02/js/string-with-quotes.js"></script>-->
+<script>
+    var title = "Molly's Special Offers";
+    var message = '<a href=\"c02/sales.html\">25% off!</a>';
+
+    var elTitle = document.getElementById('title');
+    var elNote = document.getElementById('note');
+    elTitle.innerHTML = title;
+    elNote.innerHTML = message;
+</script>
+</body>
+```
+
+Variables to store boolean
+```html
+<body>
+<h1>Elderflower</h1>
+<div id="content">
+    <div class="message">Available:
+        <span id="stock"></span>
+    </div>
+    <div class="message">Shipping:
+        <span id="shipping"></span>
+    </div>
+</div>
+<script>
+    var inStock = true;
+    var shipping = false;
+
+    var elStock = document.getElementById('stock');
+    var elShip = document.getElementById('shipping');
+    elStock.className = inStock;
+    elShip.className = shipping;
+</script>
+</body>
+``` 
+
+Variable Naming Rules
+- must begin with [$, _, alphabet]
+- dash(-) or period(.), comma(,) cannot be in a variable name
+- case sensitive
+- no keyword or reserved word can be used
+
+Arrays
+```javascript
+var colors = ['white', 'green'];
+var el = document.getElementById('colors');
+el.textContent = colors[colors.length - 1];
+
+colors = new Array('white', 'green');
+colors[0] = 'red';
+el.innerHTML = colors.item(0);
+```
+
+Variable Data Types(number, string, boolean), array(object)
 ```javascript
 var a= "a";
 var b = 'b';
@@ -87,11 +199,14 @@ arr.length // 4
 arr[0] = 'String';
 ```
 
-arithmetic operator + - / * ++ -- %
+Arithmetic operator + - / * ++ -- %
 
-boolean operator < > >= <= === !== == !=
+Boolean operator < > >= <= === !== == !=
 
-logical operator && || 
+Logical operator && || 
+
+## Example
+example.html
 
 # Functions, methods, and Objects
 ```javascript
