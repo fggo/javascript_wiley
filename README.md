@@ -30,22 +30,22 @@ Object has:
 - methods (represent things people need to do with objects)
 
 ```
-HOTEL Object :
+HOTEL Object
 1. When a reservation is made, the book event fires.
 2. The book event triggers makeBooking(), which increases the value of the bookings property
 3. The value of the bookings property is changed to reflect the number of rooms available.
 
-WINDOW Object:
-location property
+WINDOW Object
+ location (property)
 
-DOCUMENT Object:
-URL property, lastModified property, title property
+DOCUMENT Object
+ URL, lastModified, title (property)
 ```
 
 ### Web browsers are programs built using objects
-window & document objects
+Window & Document objects
 
-### document Object represents an HTML page
+### Document Object represents an HTML page
 - properties : URL, lastModified, title
 - methods : perform tasks associated with the document loaded in the browser. (e.g. write(), getElementById())
 - events : (e.g. load, click, keypress)
@@ -59,13 +59,18 @@ JS can be used to change HTML page contents. You need to know how a browser inte
 All major browsers use a JavaScript interpreter to translate your instructions (in JavaScript) into instructions the computer can follow.
 
 ## c. How do I write a script for a web page?
-html(content layer), css(presentation layer), javascript(behavior layer)
+HTML (content layer), CSS (presentation layer), JavaScript (behavior layer)
 
 ```html
+<html>
+<head></head>
 <body>
 	<h1>Constructive &amp; Co.</h1>
+	<!--Linking to a JavaScript file from an HTML page-->
 	<script src= "js/add-content.js"></script>
 	<p>For all orders and inquiries please call <em>555-3344</em></p>
+	
+	<script type="text/javascript">document.write('<h3>Welcome!</h3>');</script>
 </body>
 </html>
 ```
@@ -86,43 +91,30 @@ if (hourNow > 18) {
 } else {
 	greeting = 'Welcome!';
 }
-document.write('<h3>' + greeting + '</h3>');
-/*object.method();*/
-```
-
-Linking to a JavaScript file from an HTML page
-```html
-<body>
-	<script type="text/javascript">document.write('<h3>Welcome!</h3>');</script>
-	<script src="jss/add-content.js"></script>    
-</body>
+document.write('<h3>' + greeting + '</h3>'); /*object.method();*/
 ```
 
 # Basic Javascript
 Variables to store number or string
 ```html
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="c02/css/c02.css">
+	<title>Document</title>
+	<link rel="stylesheet" href="c02/css/c02.css">
 </head>
 <body>
-    <h1>Elderflower</h1>
-    <div id="contnet">
-        <h2>Custom Signage</h2>
-        <div id="cost">Cost: $5 per tile</div>
-        <img src="c02/images/preview.jpg" alt="Sign">
-    </div>
-    <script>
-        var cost = 5;
-        var quantity = 14;
-        var total = cost * quantity;
-        var el = document.getElementById('cost');
-        el.textContent = '$' + total;
-    </script>
+	<h1>Elderflower</h1>
+	<div id="content">
+		<h2>Custom Signage</h2>
+		<div id="cost">Cost: $5 per tile</div>
+		<img src="c02/images/preview.jpg" alt="Sign">
+	</div>
+	<script>
+		var cost = 5;
+		var quantity = 14;
+		var total = cost * quantity;
+		var el = document.getElementById('cost');
+		el.textContent = '$' + total;
+	</script>
 </body>
 ```
 
@@ -131,18 +123,18 @@ Using quotes inside a string
 <body>
 <h1>Elderflower</h1>
 <div id="content">
-    <div id="title">Special Offers</div>
-    <div id="note">Sign-up to receive personalized offers!</div>
+	<div id="title">Special Offers</div>
+	<div id="note">Sign-up to receive personalized offers!</div>
 </div>
 <!--<script src="c02/js/string-with-quotes.js"></script>-->
 <script>
-    var title = "Molly's Special Offers";
-    var message = '<a href=\"c02/sales.html\">25% off!</a>';
+	var title = "Molly's Special Offers";
+	var message = '<a href=\"c02/sales.html\">25% off!</a>';
 
-    var elTitle = document.getElementById('title');
-    var elNote = document.getElementById('note');
-    elTitle.innerHTML = title;
-    elNote.innerHTML = message;
+	var elTitle = document.getElementById('title');
+	var elNote = document.getElementById('note');
+	elTitle.innerHTML = title;
+	elNote.innerHTML = message;
 </script>
 </body>
 ```
@@ -152,27 +144,27 @@ Variables to store boolean
 <body>
 <h1>Elderflower</h1>
 <div id="content">
-    <div class="message">Available:
-        <span id="stock"></span>
-    </div>
-    <div class="message">Shipping:
-        <span id="shipping"></span>
-    </div>
+	<div class="message">Available:
+		<span id="stock"></span>
+	</div>
+	<div class="message">Shipping:
+		<span id="shipping"></span>
+	</div>
 </div>
 <script>
-    var inStock = true;
-    var shipping = false;
+	var inStock = true;
+	var shipping = false;
 
-    var elStock = document.getElementById('stock');
-    var elShip = document.getElementById('shipping');
-    elStock.className = inStock;
-    elShip.className = shipping;
+	var elStock = document.getElementById('stock');
+	var elShip = document.getElementById('shipping');
+	elStock.className = inStock;
+	elShip.className = shipping;
 </script>
 </body>
 ``` 
 
 Variable Naming Rules
-- must begin with [$, _, alphabet]
+- must begin with ($, _, alphabet)
 - dash(-) or period(.), comma(,) cannot be in a variable name
 - case sensitive
 - no keyword or reserved word can be used
@@ -210,12 +202,11 @@ example.html
 
 # Functions, methods, and Objects
 ```javascript
-var msg = 'Sign up to receive our newsletter for 10% off!'
-/*Declare function*/
 function updateMessage(myMsg){
 	var el = document.getElementById('message');
 	el.textContent = myMsg;
 }
+var msg = 'Sign up to receive our newsletter for 10% off!'
 updateMessage(msg); /*call*/
 
 /*Anonymous function (expression) assigned to a variable*/
@@ -235,11 +226,9 @@ var area = (function(){
 ```
 
 ## Object
-variables in an object are called properties. functions in an object are called methods.
+properties(variables) and methods(functions)
 ```javascript
 /*1. literal notation*/
-
-/*object-literal1.js*/
 var hotel = {
 	name: 'Quay',
 	rooms: 40,
@@ -255,27 +244,11 @@ elName.textContent = hotel.name; //Quay
 var elRooms = document.getElementByid('rooms'); 
 elRooms.textContent = hotel.checkAvailability(); //40
 
-/*object-literal2.js*/
-var hotel = {
-	name: 'Park',
-	rooms: 120,
-	booked: 77,
-	gym: true,
-	roomTypes: ['twin', 'double', 'suite'],
-	checkAvailability: function(){
-		return this.rooms - this.booked;
-	}
-};
-var elName = document.getElementByld('hotelName');
-elName.textContent = hotel.name; //Park
-var elRooms = document.getElementByid('rooms');
-elRooms.textContent = hotel.checkAvailability(); //120
-
-/*access by dot notation*/
+/*Access by dot notation*/
 var hotelName = hotel.name;
 var roomsFree = hotel.checkAvailability();
 
-/*access by bracket notation*/
+/*Access by bracket notation*/
 var hotelName = hotel['name'];
 
 /*2-1. constructor notation(creating an object)*/
@@ -286,16 +259,16 @@ hotel.booked = 25;
 hotel.checkAvailability = function(){
 	return this.rooms - this.booked;
 }
-var elName = document.getElementByid('hotelName');
+var elName = document.getElementById('hotelName');
 elName.textContent = hotel.name;
-var elRooms = document.getElementByid('rooms');
+var elRooms = document.getElementById('rooms');
 elRooms.textContent = hotel.checkAvailability();
 
 /*updating an object*/
 hotel.name = 'Park';
 hotel['name'] = 'Park';
 
-/*2-2. constructor notation(creating multiple objects)*/
+/*2-2. constructor notation (creating multiple objects)*/
 function Hotel(name, rooms, booked){
 	this.name = name;
 	this.rooms = rooms;
@@ -309,12 +282,12 @@ var parkHotel = new Hotel('Park', 120, 77);
 
 var details1= quayHotel.name + ' rooms : ';
 	details1 += quayHotel.checkAvailability();
-var elHotel1 = docurnent.getElementByid('hotel1');
-	elHotel1.textContent =details!;
+var elHotel1 = document.getElementById('hotel1');
+	elHotel1.textContent = details1;
 
 var details2 = parkHotel .name+ ' rooms: ';
 	details2 += parkHotel.checkAvailability();
-var elHotel2 = document.getElementByid('hotel2');
+var elHotel2 = document.getElementById('hotel2');
 	elHotel2.textContent = details2;
 
 
@@ -322,7 +295,7 @@ var elHotel2 = document.getElementByid('hotel2');
 var hotel = {
 	name: 'Park',
 	rooms:120,
-	booked : 77;
+	booked : 77
 }
 hotel.gym =true;
 hotel.pool = false;
@@ -332,25 +305,24 @@ var elName = document.getElementById('hotelName');
 elName.textContent = hotel.name;
 
 var elPool = document.getElementById('pool');
-elPool.className = 'Pool: ' + hotel.pool; 
+elPool.className = hotel.pool; 
 
 var elGym = document.getElementById('gym');
-elGym.className = 'Gym: ' + hotel.gym;
+elGym.className = hotel.gym;
 ```
 
 ## this keyword
 ```javascript
 /*A Function in global scope*/
 function windowSize(){
-	//return default object(window) width and height
-	return [this.innerWidth, this.innerHeight];
+	return [this.innerWidth, this.innerHeight]; //return default window width and height
 }
 
 /*Global variables all become properties of the default object (window)*/
 var width =600; // global variable; property of the window object
 var shape = {width: 300}; //object with a property
 var showWidth = function(){
-	doucument.write(this.width); // window.width; 600
+	document.write(this.width); // window.width; window object's width property
 }
 showWidth();
 
@@ -359,11 +331,11 @@ var shape = {
 	width: 600,
 	height: 400,
 	getArea: function(){
-		return this.width * this.height; //600*400
+		return this.width * this.height; //this = shape object
 	}
 };
 
-/*Function expression as method*/
+/*Function expression as an object method*/
 var width =600;
 var shape ={width: 300};
 var showWidth = function(){
@@ -378,7 +350,7 @@ shape.getWidth(); //300; method of an object (shape)
 - Document Object Model: document -> \<html\> \<head\> \<body\>, etc.
 - Global JavaScript Objects: string number boolean, date math regex
 
-### Browser Object Model
+### Browser Object Model: The Window Object
 property
 - window.innerHeight
 - window.innerWidth
@@ -421,7 +393,7 @@ el.innerHTML = msg;
 alert('Current page: ' + window.location); //window.alert(); default object, window, is implied
 ```
 
-### Document Object Model
+### Document Object Model: The Document Object
 property
 - document.title
 - document.lastModified
@@ -436,6 +408,7 @@ method
 - document.createTextNode()
 
 ```javascript
+/* document-object.js */
 var msg = '<p><b>page title: </b>' + document.title + '<br />';
 msg += '<b>page address: </b>' + document.URL + '<br />';
 msg += '<b>last modified : </b>' + document.lastModified + '</p>' ;
@@ -445,24 +418,27 @@ el.innerHTML = msg;
 ```
 
 ### Global JavaScript Objects
+String Object
 ```javascript
-var saying = 'Home sweet home ';
+var str = 'Home sweet home ';
 ```
+
 String Object property
-- saying.length
+- str.length
 
 String Object method
-- saying.toUpperCase(); 'HOME SWEET HOME '
-- saying.tolowerCase(); 'home sweet home '
-- saying.charAt(12); 'o'
-- saying.indexOf('ee'); 7
-- saying.lastlndexOf('e'); 14
-- saying.substring(8,14); 'et hom'
-- saying.split(' ') ; ['Home' , 'sweet' , 'home' , '']
-- saying.trim(); 'Home sweet home'
-- saying.replace('me','w'); 'How sweet home '
+- str.toUpperCase(); 'HOME SWEET HOME ' 
+- str.toLowerCase(); 'home sweet home '
+- str.charAt(12); 'o'
+- str.indexOf('ee'); 7
+- str.lastIndexOf('e'); 14
+- str.split(' ') ; ['Home' , 'sweet' , 'home' , '']
+- str.substring(8,14); 'et hom'
+- str.trim(); 'Home sweet home'
+- str.replace('me','w'); 'How sweet home '
 
 ```javascript
+/* string-object.js */
 // Create a variable called saying to hold the string that will be used
 var saying = 'Home sweet home ';
 // Create a variable called msg to hold a message that will be shown on the page
@@ -488,6 +464,14 @@ var el = document.getElementById('info');
 // Write the message into that element
 el.innerHTML = msg;
 ```
+
+### Data Types Revisited
+1. String
+2. Number
+3. Boolean
+4. Undefined (declared, not assigned)
+5. Null
+6. Object (arrays and functions are objects)
 
 Number Object method
 - isNaN()
@@ -535,7 +519,7 @@ Date Object method
 - getDay() Returns the day of the week (0-6)
 - getFullYear() setFullYear() Returns I sets the year (4 digits)
 - getHours() setHours() Returns I sets the hour (0 -23)
-- getMilliiseconds()  setMilliseconds() Returns I sets the milliseconds (0 - 999)
+- getMilliseconds()  setMilliseconds() Returns I sets the milliseconds (0 - 999)
 - getMinutes() setMinutes() Returns I sets the minutes (0-59)
 - getMonth() setMonth() Returns/ sets the month (0-11)
 - getSeconds() setSeconds() Returns I sets the seconds (0-59)
@@ -546,6 +530,7 @@ Date Object method
 - toString()
 
 ```javascript
+/* date-object.js */
 // Create a variable to hold a new Date object (defaults to now)
 var today = new Date();
 // Create a variable to hold the year this year
@@ -558,6 +543,7 @@ el.innerHTML = '<p>Copyright &copy;' + year + '</p>';
 ```
 
 ```javascript
+/* date-object-difference.js */
 // Create a variable to hold a new Date object (defaults to now)
 var today = new Date();
 // Get the year this year
@@ -575,21 +561,136 @@ var elMsg = document.getElementById('message');
 elMsg.textContent = Math.floor(difference) + ' years of online travel advice';
 ```
 
-### Data Types Revisited
-1. String
-2. Number
-3. Boolean
-4. Undefined (declared, not assigned)
-5. Null
-6. Object (arrays and functions are objects)
-
 ## Example
-```html
-```
-
-```javascript
-```
+example.js example.html
 
 # Decisions and Loops
+comparison operators == != === !== (strictly equals data type and value) > < >= <=
 
+logical operators && || !
+```javascript
+var score1 = 8;
+var score2 = 9;
+var pass1, pass2 = 6;
 
+var minPass = (score1 >=pass1) || (score2 >= pass2);
+var msg = 'Resit required : ' + !(minPass);
+
+var el = document.getElementById('answer');
+el.textContent = msg;
+```
+
+if statement
+```javascript
+var score = 75;
+var msg = '';
+function congrats() {msg += 'Congratulations you passed!';}
+function encourage() {msg += 'next time...';}
+if(score >= 50){
+	congrats();
+	msg += 'Proceed to the next Round!';
+}
+else{
+	encourage();
+}
+var el = document.getElementById('answer');
+el.innerHTML = msg;
+```
+
+switch statement
+```javascript
+var msg;
+var level = 2;
+switch(level){
+case 1:
+	msg = 'Good luck';
+	break;
+case 2:
+	msg = 'Second stage... keep going!';
+	break;
+case 3:
+	msg = 'Final Round! almost there!'
+	break;
+default:
+	msg = 'Good luck!'
+	break;
+}
+```
+
+Type coercion & Weak Typing
+```javascript
+'1' > 0; // true
+'ten'/2; // NaN
+
+//weak typing: data types can change without specifying data type
+```
+
+Truthy & Falsy values
+```javascript
+/*Falsy Values*/
+var val1 = false; //Boolean false
+var val2 = 0; //number zero
+var val3 = ''; //Empty Value
+var val4 = 10/'score'; //NaN
+var val5; //no assigned value 
+
+/*Truthy Values*/
+val1 = true; //Boolean true
+val2 = 1; //number one
+val3 = 'carrot'; //string with content
+val4 = 10/5; //Number calculations
+val5  = 'true'; //true written as a string
+val6  = '0'; //zero written as a string
+val7  = 'false'; //falsewritten as a string
+```
+
+Checking Equality & Existence
+```javascript
+//If you use == the following values can be considered equal: false, 0, and ' ' (empty string).However, they are not equivalent when using the str ict operators.
+(false == 0) //true
+(false === 0) //false
+(false == '') //true
+(false === '') //false
+(0 == '') //true
+(O === '') //false
+
+//Although null and undefined are both falsy, they are not equal to anything other than themselves. Again, they are not equivalent when using strict operators.
+
+(undefined ==null) //true
+(null == false) //false
+(undefined == false) //false
+(null == 0) //false
+(undefined == O) //false
+(undefined === null) //false
+
+//Although NaN is considered falsy, it is not equivalent to anything; it is not even equivalent to itself (since NaN is an undefinable number, two ca nnot be equal).
+(Nan == null) //false
+(NaN == NaN) //false
+```
+
+SCE
+```javascript
+var artist = 'Rembrandt';
+var artistA = (artist || 'Unknown'); //'Rembrandt'
+
+artist = '';
+artistA= (artist || 'Unknown'); //'Unknown'
+
+artist = '';
+artistA = (artist || {}); //empty object {}
+
+valueA = O;
+valueB = 1;
+valueC = 2;
+if (valueA || valueB || valueC) {
+// Do something here
+}
+```
+
+Loops
+```javascript
+var scores = [11, 20, 3];
+for(var i =0; i< scores.length; i++){
+	document.write(i + '<br />');
+}
+```
