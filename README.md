@@ -15,31 +15,26 @@
 # ABC of Programming
 
 ## a. What is a Script and how to create one? 
-A series of instructions like a recipe or manuals. To design a script :
-1. Create tasks
-2. Break into steps
-3. Implement JavaScript code
+To design a script : 1. Create tasks 2. Break into steps 3. Implement JavaScript code
 
 ## b. How do computers fit in with the world around them?
 Computers create models of the world using data - object, property, event, method
 
 ### Objects and Properties
-Object has:
+Object has
 - properties (name-value pairs; characteristics)
 - events (programmers choose which event they respond to)
 - methods (represent things people need to do with objects)
 
 ```
 HOTEL Object
-1. When a reservation is made, the book event fires.
-2. The book event triggers makeBooking(), which increases the value of the bookings property
-3. The value of the bookings property is changed to reflect the number of rooms available.
+1. reservation is made, the book Event fires.
+2. it triggers makeBooking(); increases the value of the bookings property
+3. value is changed to reflect the number of rooms available.
 
-WINDOW Object
- location (property)
+WINDOW Object has location (property)
 
-DOCUMENT Object
- URL, lastModified, title (property)
+DOCUMENT Object has URL, lastModified, title (property)
 ```
 
 ### Web browsers are programs built using objects
@@ -690,7 +685,829 @@ if (valueA || valueB || valueC) {
 Loops
 ```javascript
 var scores = [11, 20, 3];
+var msg = '';
+var roundNum = 0;
 for(var i =0; i< scores.length; i++){
-	document.write(i + '<br />');
+	roundNum = i + 1;
+	msg = 'Round ' + roundNum + ': scores[i]' + '<br />';
+}
+document.getElementById('answer').innerHTML = msg;
+
+i =1;
+msg = '';
+while(i < 10){
+	msg += i + ' x 5  = ' + (i*5) + '<br />';
+	i++;
+}
+document.getElementById('answer').innerHTML = msg;
+
+i =1;
+msg = '';
+do{
+	msg += i + ' x 5 = ' + (i*5) + '<br />';
+	i++;
+}while(i<1);
+document.getElementById('answer').innerHTML = msg;
+```
+## Example
+
+# Document Object Model
+THE DOM TREE IS A MODEL OF A WEB PAGE. It consists of four main nodes :document, element, attribute, text
+
+Accessing and updating the DOM tree involves two steps:
+1. Locate the node that represents the element you want to work with.
+2. Use its text content, child elements, and attributes.
+
+## STEP 1: ACCESS THE ELEMENTS - DOM queries and traversing the DOM.
+```javascript
+/*DOM Queries : select an individual element node*/
+getElementById('id');
+querySelector('css selector'); //get first matching element for given css selector
+
+/*DOM Queries : select multiple elements (nodelists)*/
+getElementsByClassName('className');
+getElementsByTagName('tagName');
+querySelectorAll('css selector'); //get list of matching elements
+
+/*Traversing DOM : traverse between element nodes*/
+parentNode
+previousSibling / nextSibling
+firstChild / lastChild
+```
+
+## STEP 2: WORK WITH THOSE ELEMENTS
+```javascript
+/*access or update contents of a text node*/
+nodeValue
+
+/*work with HTML content*/
+innerHTML
+textContent
+
+/*create and remove nodes*/
+createElement();
+createTextNode();
+appendChild();
+removeChild();
+
+/*access or update attribute values*/
+className
+id
+
+hasAttribute();
+getAttribute();
+setAttribute();
+removeAttribute();
+```
+
+## Caching DOM Queries
+```javascript
+/*var to store the result of the query; store reference to where the node elements are in DOM tree*/
+var el = document.getElementById('one');
+```
+
+## Accessing Elements
+```javascript
+getElementById('one'); //'id'
+querySelector('li.hot'); //'css selector' : returns the first of the matching elements
+getElementsByClassName('hot'); //'class name'
+getElementsByTagName('li'); //'tagName' : faster method than querySelectorAll()
+querySelectorAll('li.hot'); //'css selector'
+```
+
+## Methods that select individual elements
+```javascript
+//returns an individual element with the provided id
+var el = document.getElementById('one');
+el.className = 'cool';
+
+var el2 = document.querySelector('li.one'); //first element with css selector 'li.one'
+```
+
+## NodeLists: DOM Queries that return more than one Element
+* NodeList is a type of object called a 'collection'
+* length property
+* item() method
+* Live NodeLists is returned by methods beginning 'getElementsBy_' They are faster to generate than static NodeList. When your script updates the page, the live NodeList is updated at the same time.
+* Static NodeLists is returned by new methods that begin 'querySe1ector...' (which use CSS selector syntax). They reflect the document when the query was made. If the script changes the content of the page, the NodeList is not updated to reflect those changes.
+```javascript
+document.getElementsByTagName('h1');
+document.getElementsByClassName('hot');
+document.querySelectorA11('li[id]'); //get li elements that have an id attribute (regardless of the values of id attr)
+```
+
+## Selecting Elements from a NodeList
+```javascript
+/*Class Attributes*/
+var el1 = document.getElementsByClassName('hot');
+if (el1.length > 1){
+	var elFirst = el1.item(0);
+	var elSecond = el1[1]; //faster
+	elSecond.className = 'cool';
+}
+
+/*Tag Name*/
+var el2 = document.getElementsByTagName('li');
+if (el2.length > 1){
+	var elFirst = el2.item(0);
+	elFirst.className = 'cool';
+}
+
+/*CSS Selectors*/
+var el3 = document.querySelector('li.hot');
+el3.className = 'cool';
+
+var els = document.querySelectorAll('li.hot');
+els[1].className = 'cool';
+```
+
+```html
+<ul>
+	<li id="one" class="hot">
+	<em>fresh</em> figs </li>
+	<li id="two" class="hot">pine nuts</li>
+	<li id="three" class="hot"> honey </li>
+	<li id="four">balsamic vinegar</li>
+</ul>
+```
+```javascript
+var el = document.querySelectorAll('li.hot');
+if (el.length > 0){
+	for(var i =0; i < el.length; i++){
+		el[i].className = 'cool';
+	}
 }
 ```
+
+## Traversing the DOM
+```javascript
+parentNode
+
+previousSibling
+nextSibling
+firstChild
+lastChild
+```
+
+## Whitespace Nodes
+Most browsers, except IE, treat whitespace between elements (such as spaces or carriage returns) as a text node, so the Sibling and Child properties return different elements in different browsers.
+1. remove whitespace (difficult to read codes)
+2. avoid using above DOM properties
+3. use jQuery(javascript library)
+
+```html
+<ul><li id="one" class="hot"><em>fresh</em> figs</li><li id="two" class="hot">pine nuts</li><li id="three" class="hot">honey</li><li id="four">balsamic vinegar</li></ul>
+``` 
+```javascript
+// Select the starting point and find its siblings.
+var startItem = document.getElementById('two');
+var prevItem = startItem.previousSibling;
+var nextItem = startItem.nextSibling;
+
+// Change the values of the siblings' class attributes.
+prevItem.className = 'complete';
+nextItem.className = 'cool';
+```
+
+Avoid whitespaces using tricks
+```html
+<ul
+	><li id="one" class="hot"><em>fresh</em> figs</li
+	><li id="two" class="hot">pine nuts</li
+	><li id="three" class="hot">honey</li
+	><li id="four">balsamic vinegar</li
+></ul>
+```
+
+Sibling & Child 
+```javascript
+// Select the starting point and find its siblings.
+var startItem = document.getElementById('two');
+var prevItem = startItem.previousSibling;
+var nextItem = startItem.nextSibling;
+// Change the values of the siblings' class attributes.
+prevItem.className = 'complete';
+nextItem.className = 'cool';
+
+// Select the starting point and find its children.
+var startItem = document.getElementsByTagName('ul')[0];
+var firstItem = startItem.firstChild;
+var lastItem = startItem.lastChild;
+// Change the values of the children's class attributes.
+firstItem.className = 'complete';
+lastItem.className = 'cool';
+```
+
+## How to Get / Update Element Content
+```javascript
+//Text Nodes
+nodeValue; //access text from node
+
+//Containing Element
+//When you use these properties to update the content of an element, the new content will overwrite the entire contents of the element (both text and markup).
+innerHTML
+textContent
+innerText
+```
+
+## Access & Update a Text Node with nodeValue
+```html
+<div id="page">
+	<h1 id="header">List</h1>
+	<h2>Buy groceries</h2>
+	<ul>
+		<li id="one" class="hot"><em>fresh</em> figs</li>
+		<li id="two" class="hot">pine nuts</li>
+		<li id="three" class="hot">honey</li>
+		<li id="four">balsamic vinegar</li>
+	</ul>
+	<div id="scriptResults"></div>
+</div>
+<script src="js/inner-text-and-text-content.js"></script>
+```
+```javascript
+/*Accessing & Changing a Text Node with nodeValue*/
+/*You must be on a text node (figs), not the element that contains the text (em text fresh).*/
+var nodeVal = document.getElementById('one').firstChild.nextSibling.nodeValue; //figs;
+
+var itemTwo = document.getElementById('two');
+var elText = itemTwo.firstChild.nodeValue; //'pine nuts'
+elText = elText.replace('pine nuts', 'kale'); //1. replace() method
+itemTwo.firstChild.nodeValue = 'elText'; //2. nodeValue property also works
+
+/*Access & Update text with textContent (& innerText); access text only from the containing element (and its children)*/
+var itemOne = document.getElementById('one').textContent; //'fresh figs'
+
+/*Avoid innerText for three key reasons: support, obeys css rules, performance issue*/
+var firstItem = document.getElementById('one');
+var showTextContent = firstItem.textContent; //fresh figs
+var showInnerText = firstItem.innerText; //figs (fresh is hidden in css rule)
+
+var msg = '<p>textContent: ' + showTextContent + '</p>';
+msg += '<p>innerText: ' + showInnerText + '</p>';
+var el = document.getElementById('scriptResults');
+el.innerHTML = msg;
+firstItem.textContent = 'sourdough bread';
+```
+
+## Adding or Removing HTML Content
+1. innerHTML property : string including markups (or empty string to remove content)
+2. DOM manipulation method targets individual nodes
+
+## innerHTML : Update Text & MarkUp with 
+```html
+<ul>
+	<li id="one" class="hot"><em>fresh</em> figs</li>
+	<li id="two" class="hot">pine nuts</li>
+	<li id="three" class="hot">honey</li>
+	<li id="four">balsamic vinegar</li>
+</ul>
+```
+```javascript
+var firstItem = document.getElementById('one');
+var itemContent = firstItem.innerHTML;
+firstItem.innerHTML = '<a href=\"http://example.org\">' + itemContent + '</a>';
+```
+```html
+<!--after script is run-->
+<li id="one" class="hot">
+	<a href="http://example.org">
+		<em>fresh</em> figs
+	</a>
+</li>
+```
+
+## DOM Manipulation : Adding Elements
+```javascript
+createElement(); // 1. create the element
+createTextNode(); // 2. create new text node
+appendChild(); // 3. Add it to the DOM
+```
+
+```html
+<ul id="todo"><li id="one" class="hot"><em>fresh</em> figs</li><li id="two" class="hot">pine nuts</li><li id="three" class="hot">honey</li><li id="four">balsamic vinegar</li></ul>
+```
+```javascript
+var newEl = document.createElement('li');
+var newText = document.createTextNode('quinoa');
+newEl.appendChild(newText);
+
+var position = document.getElementsByTagName('ul')[0];
+position.appendChild(newEl);
+```
+
+## DOM Manipulation : Removing Elements
+```javascript
+var removeEl = document.getElementsByTagName('li')[3];
+var containerEl = removeEl.parentNode;
+containerEl.removeChild(removeEl);
+```
+
+## Comparing Techniques: Updating HTML Content
+```javascript
+/*1. Rarely used. only works when initially loading. XHTML problem*/
+document.write('');
+
+/*2. get/update the entire content of any element, including markup as a string.
+Fast and simple to remove contents from an element assigning empty string
+Should not be used to add content from a user for security purpose.*/
+element.innerHTML;
+
+/*3. DOM Manipulation is suited to changing one element from a DOM,
+not good for changing multiple contents and slower*/
+var newEl = document.createElement('li');
+var newText = document.createTextNode('quinoa');
+newEl.appendChild(newText);
+var position = document.getElementsByTagName('ul')[0];
+position.appendChild(newEl);
+```
+
+## Cross-site Scripting (XSS) Attacks
+
+## Defending against XSS
+
+## Attribute Node
+```javascript
+/*Check for an Attribute and Get its values*/
+var firstItem = document.getElementById('one');
+if (firstItem.hasAttribute('class'){
+	var attr = firstItem.getAttribute('class');
+	var el = document.getElementById('scriptResults');
+	el.innerHTML = '<p>The first item has a class name: ' + attr + '</p>';
+}
+/*Creating Attributes & Changing their Values*/
+var firstItem = document.getElementById('one');
+firstItem.className = 'complete';
+
+var fourthItem = document.getElementsByTagName('li').item(4);
+fourthItem.setAttribute('class', 'cool');
+
+/*Removing Attributes*/
+var firstItem = document.getElementById('one');
+if (firstItem.hasAttribute('class'){
+	firstItem.removeAttribute('class');
+}
+```
+
+## Examining the DOM in Chrome Browser
+
+## Example
+```javascript
+var list = document.getElementsByTagName('ul')[0];
+
+var newItemLast = document.createElement('li');
+var newTextLast = document.createTextNode('cream');
+newItemLast.appendChild(newTextLast);
+
+var newItemFirst = document.createElement('li');
+var newTextFirst = document.createTextNode('kale');
+newItemFirst.appendChild(newTextFirst);
+list.insertBefore(newItemFirst, list.firstChild);
+```
+
+# Events
+- Interactions create Events
+- Events trigger Code
+- Code responds to Users
+
+## Different Event Types
+```javascript
+/*UI Events*/
+load
+unload
+error
+resize
+scroll
+
+/*Keyboard Events*/
+keydown
+keyup keypress
+
+/*Mouse Events*/
+click
+dblclick
+mousedown
+mouseup
+mouseover
+mouseout
+
+/*Focus Events*/
+focus / focusin
+blur / focusout
+
+/*Form Events*/
+input
+change
+submit
+reset
+cut
+copy
+paste
+select
+
+/*Mutation Events*/
+DOMSubtreeModified
+DOMNodeInserted
+DOMNodeRemoved
+DOMNodeInsertedIntoDocument
+DOMNodeRemovedFromDocument
+```
+
+## How Events Trigger JavaScript Code : Event Handling
+1. Select Element (Node)
+2. Specify Event 
+3. Call Code
+
+## Three Ways to Bind an Event to an Element
+1. HTML Event Handler(Bad Practice!)
+```html
+<form method = "post" action="http://www.example.org/register">
+	<label for="username">Create a username: </label>
+	<input type="text" id="username" onblur="checkUsername()">
+	<div id="feedback"></div>
+	
+	<label for="password">Create a password: </label>
+	<input type="password" id="password">
+	
+	<input type="submit" value="Sign up!">
+</form>
+<script type="text/javascript" src="js/event-attribute.js"></script>
+```
+```javascript
+function checkUsername(){
+	var elMsg = document.getElementById('feedback');
+	var elUsername = document.getElementById('username');
+	if(elUsername.value.length < 5){
+		elMsg.textContent = 'Username must be at least 5 characters';
+	} else{
+		elMsg.textContent = '';
+	}
+}
+```
+
+2. Traditional DOM Event Handler
+You can only attach one function to each event handler
+```html
+<form method = "post" action="http://www.example.org/register">
+	<label for="username">Create a username: </label>
+	<input type="text" id="username" >
+	<div id="feedback"></div>
+	
+	<label for="password">Create a password: </label>
+	<input type="password" id="password">
+	
+	<input type="submit" value="Sign up!">
+</form>
+<script type="text/javascript" src="js/event-attribute.js"></script>
+```
+```javascript
+function checkUsername(){
+	var elMsg = document.getElementById('feedback');
+	//var elUsername = document.getElementById('username');
+	if(this.value.length < 5){ //this refers to the element the event happened on. IE 8 or earlier it would treat this as window object
+		elMsg.textContent = 'Username must be at least 5 characters';
+	} else{
+		elMsg.textContent = '';
+	}
+}
+var elUsername = document.getElementById('username');
+elUsername.onblur = checkUsername; //when it loses focus, call checkUsername()
+```
+
+## Event Listeners
+3. DOM Level 2 Event Listener; allow one event to trigger multiple functions
+```javascript
+function checkUsername(){
+	var elMsg = document.getElementById('feedback');
+	if(this.value.length < 5){
+		elMsg.textContent = 'Username must be at least 5 characters';
+	} else{
+		elMsg.textContent = '';
+	}
+}
+var elUsername = document.getElementById('username');
+elUsername.addEventListener('blur', checkUsername, false);
+//'blur' : the event you want it to listen for
+//checkUsername : code to run when the event fires
+//false:  
+```
+
+## Using Parameters with Event Handlers & Listeners
+When the interpreter sees the parentheses after a function call, it runs the code straight away. In an event handler, you want it to wait until the event triggers it. Therefore, if you need to pass arguments to a function that is called by an event handler or listener, you wrap the function call in an anonymous function. Although the anonymous function has parentheses, it only runs when the evenUs triggered.
+```javascript
+var elUsername = document.getElementById('username');
+var elMsg = document.getElementById('feedback');
+var checkUsername = function(minLength){
+	if (elUsername.value.length < minLength){
+		elMsg.textContent = 'Username must be at least ' + minLength + ' characters.';
+	} else{
+		elMsg.innerHTML = '';
+	}
+}
+elUsername.addEventListener('blur', function(){ checkUsername(5); }, false);
+```
+
+## Supporting Older versions of IE
+```javascript
+var elUsername = document.getElementById('username');
+var elMsg = document.getElementById('feedback');
+var checkUsername = function(minLength){
+	if (elUsername.value.length < minLength){
+		elMsg.textContent = 'Username must be at least ' + minLength + ' characters.';
+	} else{
+		elMsg.innerHTML = '';
+	}
+}
+if(elUsername.addEventListener){
+	elUsername.addEventListener('blur', function(){ checkUsername(5); }, false);
+} else{
+	elUsername.attachEvent('onblur', function(){ checkUsername(5); });
+}
+```
+If you need to support IE8 (or older), instead of writing this fallback code for every event you are responding to, it is better to write your own function (known as a helper function) that creates the appropriate event handler for you. You will see a demonstration of this in Chapter 13, which covers form enhancement and validation.
+
+## Event Flow
+The flow of events only really matters when your code has event handlers on an element and one of its ancestor or descendant elements.
+- Event Bubbling(false; outward)
+- Event Capturing(true; inward; not supported for IE8 or earlier)
+```javascript
+function showElement() {
+	alert(this.innerHTML);
+};
+/*Event Bubbling*/
+el = document.getElementById("list");
+el.addEventListener('click', showElement, false);
+
+el = document.getElementById("item");
+el.addEventListener('click', showElement, false);
+
+el = document.getElementById("link");
+el.addEventListener('click', showElement, false);
+
+/*Event Capturing*/
+el = document.getElementById("list2");
+el.addEventListener('click', showElement, true);
+
+el = document.getElementById("item2");
+el.addEventListener('click', showElement, true);
+
+el = document.getElementById("link2");
+el.addEventListener('click', showElement, true);
+```
+
+## The Event Object
+The event object contains helpful data about the event;
+- which element the event happened on
+- which key was pressed for a keypress event
+- what part of the viewport the user clicked for a click event
+
+The event object is passed to any function that is the event handler or listener. If you need to pass arguments to a named function, the event object will first be passed to the anonymous wrapper function (this happens automatically); then you must specify it as a parameter of the named function as shown on the next page).
+```javascript
+/*properties*/
+target //the target of the event(most specific element interacted with)
+type
+cancelable
+
+/*method*/
+preventDefault();
+stopPropagation();
+```
+
+## Event Listener with or without parameters
+```javascript
+function checkUsername(e){
+	var target = e.target; //get target of event
+}
+var el = document.getElementById('username');
+el.addEventListener('blur', checkUsername, false);
+```
+
+```javascript
+function checkUsername(e, minLength){
+	var target = e.target;
+}
+var el = document.getElementById('username');
+el.addEventListener('blur', function(e){ checkUsername(e, 5); }, false);
+```
+
+## The Event Object in IE5-8
+In IE5-8 Event Object is not passed automatically to event handler/listener functions
+```javascript
+/*the existence of an object is treated as a truthy value*/
+function checkUsername(e){
+	if(!e){
+		e = window.event;
+	}
+}
+
+/*getting properties*/
+var target;
+target = e.target || e.srcElement;
+
+/*a function to return the target of an event; possibly to assign event listeners to several elements*/
+function getEventTarget(e){
+	if(!e){
+		e = window.event;
+	}
+	return e.target || e.srcElement;
+}
+```
+
+## Using Event Listeners with the Event Object
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Event Listener and Event Object</title>
+</head>
+<body>
+<div id="page">
+	<h1>List King</h1>
+	<h2>New Account</h2>
+	<form method = "post" action="http://www.example.org/register">
+		<label for="username">Create a username: </label>
+		<input type="text" id="username"> <div id="feedback"></div>
+		
+		<label for="password">Create a password: </label>
+        <input type="password" id="password"> <div id="feedback"></div>
+        
+        <input type="submit" value = "sign up">
+	</form>
+</div>
+<script src="js/event-listener-with-event-object.js"></script>
+</body>
+</html>
+```
+```javascript
+function checkLength(e, minLength){
+	var el, elMsg;
+	if (!e){
+		e = window.event;
+	}
+	el = e.target || e.srcElement;
+	elMsg = el.nextSibling;
+	
+	if(el.value.legnth < minLength){
+		elMsg.innerHTML = 'Username must be at least ' + minLength + ' characters';
+	} else {
+		elMsg.innerHTML = '';
+	}
+}
+
+var elUsername = document.getElementById('username');
+if (elUsername.addEventListener){
+	elUsername.addEventListener('blur', function(e){ checkLength(e, 5); }, 'false');
+} else{
+	elUsername.attachEvent('onblur', function(e){ checkLength(e, 5); })
+}
+```
+
+## Event Delegation
+By attaching an event listener to a containing element, you are only responding to one element (rather than having an event handler for each child element). You are delegating the job of the event listener to a parent of the elements. In the list shown here, if you place the event listener on the <u1> element rather than on links in each <1i> element , you only need one event listener. This gives better performance.
+
+## Changing Default Behavior
+```javascript
+/*prevent default browser behavior*/
+if (event.preventDefault){
+	event.preventDefault();
+} else {
+	event.returnValue = false;
+}
+
+/*stop propagation*/
+if (event.stopPropagation){
+	event.stopPropagation();
+} else {
+	event.cancelBubble = true;
+}
+
+/*using both methods*/
+return false;
+```
+
+## Using Event Delegation
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<title>Event Delegation</title>
+<link rel="stylesheet" href="css/c06.css" />
+</head>
+<body>
+<div id="page">
+	<h1>List King</h1>
+	<h2>Buy groceries</h2>
+	<ul id="shoppingList">
+		<li class="complete"><a href="itemDone.php?id=1"><em>fresh</em> figs</a></li>
+		<li class="complete"><a href="itemDone.php?id=2">pine nuts</a></li>
+		<li class="complete"><a href="itemDone.php?id=3">honey</a></li>
+		<li class="complete"><a href="itemDone.php?id=4">balsamic vinegar</a></li>
+	</ul>
+</div>
+<script src="js/event-delegation.js"></script>
+</body>
+</html>
+```
+```javascript
+function getTarget(e) {                          // Declare function
+  if (!e) {                                      // If there is no event object
+    e = window.event;                            // Use old IE event object
+  }
+  return e.target || e.srcElement;               // Get the target of event
+}
+
+function itemDone(e) {                           // Declare function
+  // Remove item from the list
+  var target, elParent, elGrandparent;           // Declare variables
+  target = getTarget(e);                         // Get the item clicked link
+
+  /*
+  The book used the following code - but it had two shortcomings
+  - Clicking between list items would remove the whole list
+  - Clicking on italic text would remove the link - not the list item
+
+  elParent = target.parentNode;
+  elGrandparent = target.parentNode.parentNode;
+  elGrandparent.removeChild(elParent);
+
+  The next 10 lines improve that example
+  */
+
+  if ( target.nodeName.toLowerCase() == "a" ) {  // If user clicked on an a element
+    elListItem = target.parentNode;              // Get its li element
+    elList = elListItem.parentNode;              // Get the ul element
+    elList.removeChild(elListItem);              // Remove list item from list
+  }
+  if ( target.nodeName.toLowerCase() == "em" ) { // If the user clicked on an em element
+    elListItem = target.parentNode.parentNode;   // Get its li element
+    elList = elListItem.parentNode;              // Get the ul element
+    elList.removeChild(elListItem);              // Remove list item from list
+  }
+
+  // Prevent the link from taking you elsewhere
+  if (e.preventDefault) {                        // If preventDefault() works
+    e.preventDefault();                          // Use preventDefault() 
+  } else {                                       // Otherwise
+    e.returnValue = false;                       // Use old IE version
+  }
+}
+
+// Set up event listeners to call itemDone() on click
+var el = document.getElementById('shoppingList');// Get shopping list
+if (el.addEventListener) {                       // If event listeners work
+  el.addEventListener('click', function(e) {     // Add listener on click
+    itemDone(e);                                 // It calls itemDone()
+  }, false);                                     // Use bubbling phase for flow
+} else {                                         // Otherwise
+  el.attachEvent('onclick', function(e) {        // Use old IE model: onclick
+    itemDone(e);                                 // Call itemDone()
+  });
+}
+```
+
+## Which Element did an Event Occur On?
+Event object's target property is the best way to determine this. Another approach, however, is using 'this' keyword. 'this' refers to the element that the event is on.
+```javascript
+/*WITHOUT PARAMETERS*/
+function checkUsername(){
+	var elMsg = document.getElementById('feedback');
+	if(this.value.length < 5){
+		elMsg.innerHTML = 'Not long Enough';
+	} else{
+		elMsg.innerHTML = '';
+	}
+}
+var el = document.getElementById('username');
+el.addEventListener('blur', checkUsername, false); //no parameter required!
+
+/*WITH PARAMETERS: if you pass parameters 'this' keyword no longer works because the owner
+* of the function is no longer the element that the event listener was bound to*/
+function checkUsername(el, minLength){
+	var elMsg = document.getElementById('feedback');
+	if (el.value.length < minLength){
+		elMsg.innerHTML = 'Not long enough';
+	} else{
+		elMsg.innerHTML = '';
+	}
+}
+var el = document.getElementById('username');
+el.addEventListener('blur', function(){ checkUsername(el, 5); }, false);
+```
+
+## Different Types of Events
+- W3C DOM Events
+- HTML5 Events (e.g. submit input change readystatechange DOMContentLoaded hashchange)
+- BOM Events (e.g. touchstart touchend touchmove orientationchange; events dealing with touchscreen devices)
+
+## User Interface Events
+UI Events occur as a result of interaction with the browser window rather than the HTML page contained within it.
+```javascript
+load
+unload
+error
+resize
+scroll
+```
+
