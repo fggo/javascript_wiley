@@ -1274,6 +1274,7 @@ stopPropagation();
 ```
 
 ## Event Listener with or without parameters
+Without you doing anything, a reference to the event object is automatically passed from which the event listener calls the function. In function definition, the parameter must be named e.g. 'e' or 'event' 
 ```javascript
 function checkUsername(e){
 	var target = e.target; //get target of event
@@ -1358,7 +1359,7 @@ function checkLength(e, minLength){
 
 var elUsername = document.getElementById('username');
 if (elUsername.addEventListener){
-	elUsername.addEventListener('blur', function(e){ checkLength(e, 5); }, 'false');
+	elUsername.addEventListener('blur', function(e){ checkLength(e, 5); }, false);
 } else{
 	elUsername.attachEvent('onblur', function(e){ checkLength(e, 5); })
 }
@@ -1467,7 +1468,7 @@ if (el.addEventListener) {                       // If event listeners work
 }
 ```
 
-## Which Element did an Event Occur On?
+## this keyword : Which Element did an Event Occur On?
 Event object's target property is the best way to determine this. Another approach, however, is using 'this' keyword. 'this' refers to the element that the event is on.
 ```javascript
 /*WITHOUT PARAMETERS*/
@@ -1502,7 +1503,7 @@ el.addEventListener('blur', function(){ checkUsername(el, 5); }, false);
 - BOM Events (e.g. touchstart touchend touchmove orientationchange; events dealing with touchscreen devices)
 
 ## User Interface Events
-UI Events occur as a result of interaction with the browser window rather than the HTML page contained within it.
+UI Events occur as a result of interaction with the browser window rather than the HTML page contained within it. The event handler / listener for UI event should be attached to the browser window.
 ```javascript
 load
 unload
@@ -1511,3 +1512,395 @@ resize
 scroll
 ```
 
+### Load
+The load event is commonly used to trigger scripts that access the contents of the page. A function called setup() gives focus to the text input when the page has loaded. The event is automatically raised by the window object when a page has finished loading the HTML and all of its resources: images, CSS, scripts (even third party content e.g .. banner ads).
+```javascript
+function setup(){
+	var textInput = document.getElementById('username');
+	textInput.focus();
+}
+window.addEventListener('load', setup, false); //called on 'window' Object!
+``` 
+Note that the event listener is attached to the window object (not the document object - as this can cause cross-browser compatibility issues). Otherwise, in case of the script being called at the end, the DOM would have loaded form elements before the script runs and there would be no need to wait for the load event.
+
+### Focus & Blur Events
+If you can interact with an HTML element, then it can gain (and lose) focus. The focus and b1ur events are most commonly used on forms.
+```javascript
+focus
+blur
+focusin
+focusout
+```
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<title>Focus & Blur</title>
+<link rel="stylesheet" href="css/c06.css">
+</head>
+<body>
+<div id="page">
+	<h1>List King</h1>
+	<h2>New Account</h2>
+	<form action="http://www.example.org/register" method="post">
+		<label for="username">Create a Username: </label>
+		<input type="text" id="username"><div id ="feedback"></div>
+		
+		<label for="password">Create a Password: </label>
+		<input type="password" id="password">
+		
+		<input type="submit" value="sign up" />
+	</form>
+</div>
+<script src="js/focus-blur.js"></script>
+</body>
+</html>
+```
+```javascript
+var elMsg = document.getElementById('feedback');
+
+function checkUsername(){
+	if (this.value.length < 5){
+		elMsg.innerHTML = 'Not long enough!';
+	} else{
+		elMsg.innerHTML = '';
+	}
+}
+function tipUsername(){
+	elMsg.className = 'tip';
+	elMsg.innerHTML = 'User Name must be at least 5 characters';
+}
+
+var el = document.getElementById('username');
+el.addEventListener('focus', tipUsername, false);
+el.addEventListener('blur', checkUsername, false);
+```
+
+## Mouse Events
+All of the elements on a page support the mouse events, and all of these bubble. Preventing a default behavior can have unexpected results. E.g., a click event only fires when both the mousedown and mouseup event have fired.
+```javascript
+/*Events: */
+click
+dblclick
+mousedown
+mouseup
+mouseover
+mouseout
+mousemove
+```
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<title>Focus and Blur Events</title>
+</head>
+<body>
+<div id="page">
+	<h1></h1>
+	<h2></h2>
+	<form action="" method="post">
+		<label for="username">Create a Username : </label>
+		<input type="text" id="username"><div id="feedback"></div>
+		
+		<label for="password">Create a Password : </label>
+        <input type="password" id="password">
+        
+        <input type="submit" value="sign up">
+	</form>
+</div>
+<script src="js/click.js"></script>
+</body>
+</html>
+```
+```javascript
+var msg = '<div class=\"header\"><a id=\"close\" href = \"#\">close X</a></div>';
+msg += '<div><h2>System Maintenance Break</h2>';
+msg += 'Our servers are being updated between 3 and 4 a.m. ';
+msg += 'During this time, there may be minor disruptions to service.</div>';
+
+var elNote  = document.createElement('div');
+elNote.setAttribute('id', 'note');
+elNote.innerHTML = msg;
+
+document.body.appendChild(elNote);
+
+function dismissNote(){
+	document.body.removeChild(elNote);
+}
+
+var elClose = document.getElementById('close');
+elClose.addEventListener('click', dismissNote, false);
+```
+
+## Where Events Occur
+The Event Object can tell you where the cursor was positioned when an event was triggered.
+```javascript
+/*Screen*/
+screenX //cursor position within the entire Screen
+screenY
+
+/*Page*/
+pageX
+pageY
+
+/*Client*/
+clientX //cursor within browser's viewport
+clientY
+```
+
+## Determining Position
+```javascript
+var sx = document.getElementById('sx');
+var sy = document.getElementById('sy');
+var px = document.getElementById('px');
+var py = document.getElementById('py');
+var cx = document.getElementById('cx');
+var cy = document.getElementById('cy');
+
+function showPosition(event){
+	sx.value = event.screenX;                    // Update element with screenX
+	sy.value = event.screenY;                    // Update element with screenY
+	px.value = event.pageX;                      // Update element with pageX
+	py.value = event.pageY;                      // Update element with pageY
+	cx.value = event.clientX;                    // Update element with clientX
+	cy.value = event.clientY;                    // Update element with clientY
+}
+
+var el = document.getElementById('body');
+el.addEventListener('mousemove', showPosition, false);
+```
+
+## Keyboard Events
+```javascript
+input //fires when <input> or <textarea> element changesl use keydown as a fallback for older browsers
+keydown
+keypress //Fires when the user presses a key that would result in a character being shown on the screen. For example, this event would not fire when the user presses the arrow keys
+keyup
+```
+In order : keydown - keypress - keyup.
+
+### Which Key was Pressed?
+When you use the keydown or keypress events, the event object has a property called keyCode, which can be used to tell which key was pressed. However, it does not return the letter for that key (as you might expect); it returns an ASCII code. 
+
+If you want to get the letter or number as it would be displayed on the keyboard (rather than an ASCII equivalent), the String object has a built-in method called fromCharCode() which will do the conversion for you: 
+```javascript
+String.fromCharCode(event.keycode);
+```
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<title>Keypress</title>
+<link rel="stylesheet" href="css/c06.css">
+</head>
+<body>
+<div id="page">
+	<h1>List King</h1>
+	<form id="messageForm">
+		<h2>My profile</h2>
+		<textarea id="message"></textarea>
+		<div id="charactersLeft"></div>
+		<div id="lastKey"></div>
+	</form>
+</div>
+<script src="js/keypress.js"></script>
+</body>
+</html>
+```
+```javascript
+var elMsg;
+
+function charCount(e){
+	var elCharLeft = document.getElementById('characterLeft');
+    var elLastKey = document.getElementById('lastKey');
+    	
+    var charCount = document.getElementById('message').value.length;
+	var lastKey = e.keyCode;
+	
+	elCharLeft.textContent = 180 - charCount;
+	elLastKey.textContent = 'Last key in ASCII code: ' + lastKey;
+}
+
+elMsg = document.getElementById('message');
+elMsg.addEventListener('keyup', charCount, false);
+```
+
+## Form Events
+```javascript
+submit
+change //better than click event
+input //commonly used events for <input> and <textarea>
+
+focus //often used with forms or with links
+blur
+
+/*JavaScript form validation before sending data to be validated in server.*/
+```
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<title>Form Events</title>
+<link rel="stylesheet" href="css/c06.css">
+</head>
+<body>
+<div id="page">
+	<h1>List King</h1>
+	<form method="post" action="http://www.example.org/register" id="formSignup">
+		<h2>MemberShip</h2>
+		<label for="package" id="selectbox">Select a Package: </label>
+		<select name="package" id="package">
+			<option value="annual">1 year ($50)</option>
+			<option value="monthly">1 month ($5)</option>
+		</select>
+		<div id="packageHint" class="tip"></div>
+		
+		<input type="checkbox" id="terms">
+		<label for="terms" class="checkbox"></label>
+		<div id="termsHint" class="warning"></div>
+		
+		<input type="submit" value="next">
+	</form>
+	<script src="js/form.js"></script>
+</div>
+</body>
+</html>
+```
+```javascript
+var elForm = document.getElementById('formSignup');
+var elPackage = document.getElementById('package');
+var elPackageHint = document.getElementById('packageHint');
+var packageChoice;
+var elTermsChecked = document.getElementById('terms');
+var elTermsHint = document.getElementById('termsHint');
+
+function packageHint(){
+	packageChoice = this.options[this.selectedIndex].value;
+	
+	if(packageChoice === 'monthly'){
+		elPackageHint.innerHTML = 'Save $10 by choosing 1 year plan!';
+	} else if(packageChoice === 'annual'){
+		elPackageHint.innerHTML = 'Wise choice!';
+	}
+}
+function checkTerms(event){
+	if(!elTermsChecked.checked){
+		elTermsHint.innerHTML = 'You must agree with the terms!';
+		event.preventDefault();
+	}
+} 
+
+elForm.addEventListener('submit', checkTerms, false);
+elPackage.addEventListener('change', packageHint, false);
+```
+
+## Mutation Events & Observers
+Whenever elements are added to or removed from the DOM, its structure changes. This change triggers a mutation event. Due to performance issue, Mutation Events are being replaced by Mutation Observers.
+```javascript
+DOMNodeInserted //node into DOM tree by appendChild() replaceChild() insertBefore()
+DOMNodeRemoved //node from DOM tree by removeChild() replaceChild()
+DOMSubtreeModified //fired after above two occurred when DOM structure changes
+DOMNodeInsertedIntoDocument //into DOM tree as a descendant of another node already in the document
+DOMNodeRemovedFromDocument //from DOM tree as a descendant of another node already in the document
+```
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaScript &amp; jQuery - Chapter 6: Events - Mutation Events</title>
+	<link rel="stylesheet" href="css/c06.css" />
+</head>
+<body>
+<div id="page">
+	<h1>List King</h1>
+	<h2>Buy Groceries <span id="counter">1</span></h2>
+	<ul id="list">
+		<li>fresh figs</li>
+	</ul>
+	<div class="button"><a href="/additem" class="add">Add list item</a></div>
+</div>
+<script src="js/mutation.js"></script>
+</body>
+</html>
+```
+```javascript
+var elList, addLink, newEl, newText, counter, listItems; // Declare variables
+
+elList  = document.getElementById('list');               // Get list
+addLink = document.querySelector('a');                   // Get add item button
+counter = document.getElementById('counter');            // Get item counter
+
+function addItem(e) {                                    // Declare function
+  e.preventDefault();                                    // Prevent link action
+  newEl = document.createElement('li');                  // New <li> element
+  newText = document.createTextNode('New list item');    // New text node
+  newEl.appendChild(newText);                            // Add text to <li>
+  elList.appendChild(newEl);                             // Add <li> to list
+}
+
+function updateCount() {                                 // Declare function
+  listItems = elList.getElementsByTagName('li').length;  // Get total of <li>s
+  counter.innerHTML = listItems;                         // Update counter
+}
+
+addLink.addEventListener('click', addItem, false);       // Click on button
+elList.addEventListener('DOMNodeInserted', updateCount, false); // DOM updated
+```
+
+## HTML5 Events
+Here are three page-level events that have been included in versions of the HTML5 spec that have become popular very quickly.
+
+```javascript
+DOMContentLoaded /*Event fires when the DOM tree is formed (images, CSS, and JavaScript might still be loading). Scripts start to run earlier than using the load event which waits for other resources such as images and advertisements to load. This makes the page seem faster to load. However, because it does not wait for scripts to load, the DOM tree w ill not contain any HTML that would have been generated by those scripts. It can be attached to the window or document objects. */
+
+hashchange /*Event fires wh en the URL hash changes (without the entire window refreshing). Hashes are used on links to specific parts (sometimes known as anchors) within a page and also on pages that use AJAX to load content. The hashchange event handler works on the window object, and after firing, the event object will have o1 dURL and newURL properties that hold t he url before and after the hashchange. */ 
+
+beforeunload /*Event fires on the window object before the page is unloaded. It should only be used to help the user (not to encourage them to stay on a website if th ey are trying to leave). For example, it can be helpful to let a user know that changes on a form they completed have not been saved. You can add a message to the dialog box that is shown by the browser, but you do not have control over the text shown before it or on the buttons the user can press (which can vary slightly between browsers and operating systems). */
+```
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>JavaScript &amp; jQuery - Chapter 6: Events - HTML5 Events</title>
+<link rel="stylesheet" href="css/c06.css" />
+</head>
+<body>
+<div id="page">
+	<h1>List King</h1>
+	<h2>Profile</h2>
+	<form id="messageForm" action="http://example.org/">
+		<textarea id="message"></textarea>
+		<input type="submit" value="next" />
+	</form>
+</div>
+<script src="js/html5-events.js"></script>
+</body>
+</html>
+```
+```javascript
+function setup() {
+	var textInput;
+	textInput = document.getElementById('message');
+	textInput.focus();
+}
+
+window.addEventListener('DOMContentLoaded', setup, false);
+
+window.addEventListener('beforeunload', function(event) {
+	// This example has been updated to improve cross-browser compatibility (as recommended by MDN)
+	var message = 'You have changes that have not been saved';
+	(event || window.event).returnValue = message;
+	return message;
+});
+```
+
+## Example
+```html
+```
+```javascript
+```
