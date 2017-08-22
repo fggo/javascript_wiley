@@ -1,4 +1,4 @@
-s* [1. ABC of Programming](#abc-of-programming)
+* [1. ABC of Programming](#abc-of-programming)
 * [2. Basic Javascript](#basic-javascript)
 * [3. Functions, methods, and Objects](#functions-methods-and-objects)
 * [4. Decisions and Loops](#decisions-and-loops)
@@ -1895,7 +1895,7 @@ window.addEventListener('beforeunload', function(event){
 ```
 
 ## Example
-If you have not used HTML5's data- attributes, they allow you to store custom data on any HTML element. (The name of the attribute can be anything starting with data- as long as the name is lowercase.) This demonstrates a new technique based upon event delegation. The event listener is placed upon the containing element whose id is buttons. The event object is used to determine the value of the id attribute on the element that was used. The value from that id attribute is t hen used in a switch statement to decide w hich function to call (depending on whether the button is in record state or pause state). This is a good way to handle many buttons because it reduces the number of event listeners in your code.
+If you have not used HTML5's data- attributes, they allow you to store custom data on any HTML element. This demonstrates a new technique based upon event delegation. The event listener is placed upon the containing element whose id is buttons. The event object is used to determine the value of the id attribute on the element that was used. The value from that id attribute is then used in a switch statement to decide which function to call (depending on whether the button is in record state or pause state). This is a good way to handle many buttons because it reduces the number of event listeners in your code.
 ```html
 <!DOCTYPE html>
 <html>
@@ -1910,7 +1910,9 @@ If you have not used HTML5's data- attributes, they allow you to store custom da
 	<form action="http://example.org/">
 		<label for="noteInput">Enter note name:</label>
 		<input type="text" id="noteInput" />
-		<div id="buttons"><a data-state="record" href="">record</a></div>
+		<div id="buttons">
+			<a data-state="record" href="">record</a>
+		</div>
 	</form>
 </div>
 <script src="js/example.js"></script>
@@ -1918,65 +1920,59 @@ If you have not used HTML5's data- attributes, they allow you to store custom da
 </html>
 ```
 ```javascript
-var noteInput, noteName, textEntered, target;    // Declare variables
+var elNoteInput = document.getElementById('noteInput');
+var elNoteName = document.getElementById('noteName');
+var elButtons = document.getElementById('buttons');
 
-noteName = document.getElementById('noteName');  // Element that holds note
-noteInput = document.getElementById('noteInput');// Input for writing the note
+var target;
 
-function writeLabel(e) {                         // Declare function
-	if (!e) {                                      // If event object not present
-		e = window.event;                            // Use IE5-8 fallback
+function writeLabel(e){
+	if(!e){
+		e = window.event;
 	}
-	target = e.target || e.srcElement;             // Get target of event
-	textEntered = target.value;                    // Value of that element
-	noteName.textContent = textEntered;            // Update note text
+    target = e.target || e.srcElement;
+	
+	elNoteName.textContent = target.value;
 }
-
-function recorderControls(e) {                   // Declare recorderControls()
-	if (!e) {                                      // If event object not present
-		e = window.event;                            // Use IE5-8 fallback
+function recordClicked(e){
+	if(!e){
+		e = window.event;
 	}
-	target = e.target || e.srcElement;             // Get the target element
-	if (e.preventDefault) {                        // If preventDefault() supported
-		e.preventDefault();                          // Stop default action
-	} else {                                       // Otherwise
-		e.returnValue = false;                       // IE fallback: stop default action
+	target = e.target || e.srcElement;
+	
+	if(e.preventDefault()){
+		e.preventDefault();
+	} else{
+		e.returnValue = false;
 	}
 	
-	switch(target.getAttribute('data-state')) {    // Get the data-state attribute
-		case 'record':                               // If its value is record
-			record(target);                            // Call the record() function
-	  break;                                     // Exit function to where called
-		case 'stop':                                 // If its value is stop
-			stop(target);                              // Call the stop() function
-			break;                                     // Exit function to where called
-		// More buttons could go here...
+	switch(target.getAttribute('data-state')){
+		case 'record':
+			record(target);
+			break;
+		case 'stop':
+			stop(target);
+			break;	
 	}
 }
-
-function record(target) {                        // Declare function
-	target.setAttribute('data-state', 'stop');     // Set data-state attr to stop
-	target.textContent = 'stop';                   // Set text to 'stop'
+function record(target){
+	target.setAttribute('data-state', 'stop');
+	target.textContent = 'stop';
+}
+function stop(target){
+	target.setAttribute('data-state', 'record');
+    target.textContent = 'record';
 }
 
-function stop(target) {
-	target.setAttribute('data-state', 'record');   //Set data-state attr to record
-	target.textContent = 'record';                 // Set text to 'record'
-}
-
-if (document.addEventListener) {                 // If event listener supported
-	document.addEventListener('click', function(e) {// For any click document
-		recorderControls(e);                         // Call recorderControls()
-	}, false);                                     // Capture during bubble phase
-	// If input event fires on noteInput input call writeLabel()
-	noteInput.addEventListener('input', writeLabel, false); 
-} else {                                         // Otherwise
-	document.attachEvent('onclick', function(e) {  // IE fallback: any click
-		recorderControls(e);                         // Calls recorderControls()
-	});
-	// If keyup event fires on noteInput call writeLabel()
-	noteInput.attachEvent('onkeyup', writeLabel);
+if(document.addEventListener){
+	elNoteInput.addEventListener('input', writeLabel, false);
+	document.addEventListener('click', function(e){ recordClicked(e);}, false)
+} else{
+	elNoteInput.attachEvent('onkeyup', writeLabel);
+	document.attachEvent('onclick', function(e){ recordClicked(e); });
 }
 ```
 
 # jQuery
+jQuery offers a simple way to achieve a variety of common JavaScript tasks quickly and consistently, across all major browsers and without any fallback code needed. It can Select Elements, Perform Tasks, and Handle Events.
+
